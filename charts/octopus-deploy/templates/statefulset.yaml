@@ -136,6 +136,10 @@ spec:
           - containerPort: 10943
             name: tentacle
         volumeMounts:
+          {{- range $name, $volume := .Values.octopus.additionalVolumes }}
+          - name: {{ $name }}-volume
+            mountPath: {{ $volume.mountPath }}
+          {{- end }}
           - name: package-repository-volume
             mountPath: /repository
           - name: artifacts-volume
@@ -146,10 +150,6 @@ spec:
             mountPath: /home/octopus/.octopus/OctopusServer/Server/Logs
           - name: audit-log-volume
             mountPath: /eventExports
-          {{- range $name, $volume := .Values.octopus.additionalVolumes }}
-          - name: {{ $name }}-volume
-            mountPath: {{ $volume.mountPath }}
-          {{- end }}
         {{- if .Values.octopus.resources }}
         resources:
         {{- toYaml .Values.octopus.resources | nindent 10 }}
