@@ -57,6 +57,31 @@ octopus:
     size: 200Mi 
     storageClassName: ""
 
+  # Additional volumes. In this example, we mount /tmp and /home/octopus/.octopus/OctopusServer/Server to allow
+  # readOnlyRootFilesystem to work. Can be used for other mount points as required.
+  additionalVolumes:
+    # /tmp/ - needed for transient file usage.
+    tmp:
+      type: "emptyDir"
+      mountPath: "/tmp/"
+      sizeLimit: "10Gi"
+      medium: ""
+
+  # Octopus Server data directory (ephemeral)
+  # Contains machine-level encrypted data that should NOT persist
+    serverdata:
+      type: "emptyDir"
+      mountPath: "/home/octopus/.octopus/OctopusServer/Server/"
+      sizeLimit: "5Gi"
+      medium: ""
+
+  # /etc/Octopus data directory (ephemeral)
+    etcoctopus:
+      type: "emptyDir"
+      mountPath: "/etc/octopus/"
+      sizeLimit: "1Gi"
+      medium: ""
+
   # The package repository, artifact, and task log volumes below are all shared across Octopus nodes.
   # For each, an optional persistent volume claim class name can be supplied. This storage class must support
   # ReadWriteMany access modes for HA clusters.

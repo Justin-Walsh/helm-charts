@@ -1,0 +1,22 @@
+{{- range $name, $volume := .Values.octopus.additionalVolumes }}
+{{- if eq $volume.type "persistentVolumeClaim" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "octopus-deploy.fullname" $ }}-{{ $name }}-pvc
+  labels:
+    {{- include "octopus-deploy.labels" $ | nindent 4 }}
+spec:
+  accessModes:
+    {{- range $volume.accessModes }}
+    - {{ . }}
+    {{- end }}
+  {{- if $volume.storageClass }}
+  storageClassName: {{ $volume.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ $volume.size }}
+{{- end }}
+{{- end }}
