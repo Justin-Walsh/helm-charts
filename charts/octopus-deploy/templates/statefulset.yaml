@@ -136,7 +136,7 @@ spec:
           - containerPort: 10943
             name: tentacle
         volumeMounts:
-          {{- range $name, $volume := .Values.octopus.additionalVolumes }}
+          {{- range $name, $volume := .Values.octopus.extraVolumes }}
           - name: {{ $name }}-volume
             mountPath: {{ $volume.mountPath }}
           {{- end }}
@@ -195,7 +195,7 @@ spec:
         - name: audit-log-volume
           persistentVolumeClaim:
             claimName: audit-log-claim
-        {{- range $name, $volume := .Values.octopus.additionalVolumes }}
+        {{- range $name, $volume := .Values.octopus.extraVolumes }}
         - name: {{ $name }}-volume
         {{- if eq $volume.type "emptyDir" }}
           emptyDir:

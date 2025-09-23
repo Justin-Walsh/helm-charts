@@ -1,4 +1,4 @@
-{{- range $name, $volume := .Values.octopus.additionalVolumes }}
+{{- range $name, $volume := .Values.octopus.extraVolumes }}
 {{- if eq $volume.type "persistentVolumeClaim" }}
 ---
 apiVersion: v1
