@@ -4,9 +4,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "octopus-deploy.fullname" $ }}-{{ $name }}-pvc
+  name: {{ include "octopus.fullname" $ }}-{{ $name }}-pvc
   labels:
-    {{- include "octopus-deploy.labels" $ | nindent 4 }}
+    {{- include "labels" $ | nindent 4 }}
 spec:
   accessModes:
     {{- range $volume.accessModes }}
